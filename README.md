@@ -1,2 +1,2 @@
-# Java-VPL-s_PDS2
+# Java
 Exercicios que exploram sintaxe de JAVA 

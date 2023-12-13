@@ -1,2 +1,2 @@
 # Java
-Exercicios que exploram sintaxe de JAVA 
+Exercicios de livros/listas/origianis que exploram JAVA 

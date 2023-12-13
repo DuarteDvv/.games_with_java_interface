@@ -15,7 +15,7 @@ public class FiboRecursivo{
         return Fibonacci(k-1) + Fibonacci(k-2);
     }
 
-    public static void main(String[] arg){
+    public static void main(String[] k){
         FiboRecursivo F = new FiboRecursivo();
         try(Scanner scan = new Scanner(System.in)){
             int a = scan.nextInt();

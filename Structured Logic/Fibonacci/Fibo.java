@@ -27,7 +27,7 @@ public class Fibo{
 
 
     }
-    public static void main(String[] arg){
+    public static void main(String[] k){
         Fibo F = new Fibo();
         try(Scanner scan = new Scanner(System.in)){
             int a = scan.nextInt();

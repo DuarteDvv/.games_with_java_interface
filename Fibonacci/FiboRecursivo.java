@@ -1,11 +1,12 @@
-import java.util.Scanner;
 package Fibonacci;
+import java.util.Scanner;
+
 
 public class FiboRecursivo{
 
     private int Fibonacci(int k){
         if(k == 0){
-            return 1; 
+            return 0; 
         }
         if(k == 1){
             return 1;
@@ -16,10 +17,11 @@ public class FiboRecursivo{
 
     public static void main(String[] arg){
         FiboRecursivo F = new FiboRecursivo();
-        Scanner scan = new Scanner(System.in);
-        int a = scan.nextInt();
-        int result = FiboRecursivo.Fibonacci(a);
-        System.out.println(result);
+        try(Scanner scan = new Scanner(System.in)){
+            int a = scan.nextInt();
+            int result = F.Fibonacci(a);
+            System.out.println(result);
+        }
 
     }
 }

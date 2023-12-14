@@ -1,23 +1,22 @@
 package Abreviador;
 
-import java.nio.*;
 import java.util.*;
 
-public class Abrevia{
-    public static void main(String[] a){ //Paulo Jose de Almeida Prado. Abreviatura: P. J. de A. P.
-        Scanner scan = new Scanner();
-        String nome = new String();
+public class Abrevia {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Digite o nome completo:");
+        String nome = scan.nextLine();
+        scan.close();
 
         String[] nomeSeparado = nome.split(" ");
-        for(n : nomeSeparado){
-            if(n.lenght() > 2){
-                System.out.println(n[0] + ".");
-            }else{ System.out.println(n);}
-
-
-
+        for (String n : nomeSeparado) {
+            if (n.length() > 2) {
+                System.out.print(Character.toUpperCase(n.charAt(0)) + ". ");
+            } else {
+                System.out.print(n + " ");
+            }
         }
-        //imprimir
-
     }
 }

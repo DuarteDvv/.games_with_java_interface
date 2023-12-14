@@ -11,10 +11,12 @@ public class Abrevia{
         String[] nomeSeparado = nome.split(" ");
         for(n : nomeSeparado){
             if(n.lenght() > 2){
-                
+                n = n[0];
             }
 
+
         }
+        //imprimir
 
     }
 }

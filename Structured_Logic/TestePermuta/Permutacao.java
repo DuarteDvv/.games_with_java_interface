@@ -1,4 +1,5 @@
 package TestePermuta;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Permutacao {
@@ -12,10 +13,22 @@ public class Permutacao {
         A = A.replaceAll("0", "");
         B = B.replaceAll("0", "");
 
-        return A.equals(B);
+        // Verificar se o tamanho das strings é o mesmo
+        if (A.length() != B.length()) {
+            return false;
+        }
+
+        // Transformar strings em arrays de caracteres e ordenar
+        char[] arrA = A.toCharArray();
+        char[] arrB = B.toCharArray();
+        Arrays.sort(arrA);
+        Arrays.sort(arrB);
+
+        // Comparar os arrays de caracteres ordenados
+        return Arrays.equals(arrA, arrB);
     }
 
-    public static void main(String[] us) {
+    public static void main(String[] args) {
         Permutacao P = new Permutacao();
         Scanner scan = new Scanner(System.in);
 

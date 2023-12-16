@@ -1,47 +1,54 @@
 package TesteArray;
 import java.util.*;
 
-public class Array{
+public class Array {
 
-    
-
-    
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int maximo = scan.nextInt();
         MyArray a = new MyArray(maximo);
+
+        for (int i = 0; i < maximo; i++) {
+            a.Add(scan.nextInt());
+        }
+
+        System.out.println(a.media());
+        scan.close();
     }
 }
 
-public class MyArray{
+class MyArray {
     int curent = 0;
     int max;
     int[] a;
 
-    MyArray(int k){
+    public MyArray(int k) {
         max = k;
-        a = new int[k]
+        a = new int[k];
     }
 
-    public boolean Add(int k){
-        if(curent = max){
+    public boolean Add(int k) {
+        if (curent == max) {
             return false;
-        }
-        else{
+        } else {
             a[curent] = k;
             curent++;
+            return true;
         }
-
     }
 
-    public double media(){
+    public double media() {
         int soma = 0;
-        int nElem;
-        for(int n : a){
+        int nElem = 0;
+        for (int n : a) {
             nElem++;
             soma += n;
         }
 
-        return soma/nElem;
+        if (nElem == 0) {
+            return 0; // Evitar divisão por zero se o array estiver vazio
+        }
+
+        return (double) soma / nElem;
     }
 }

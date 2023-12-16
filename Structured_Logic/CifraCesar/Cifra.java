@@ -1,4 +1,4 @@
-package CifraCeasar;
+package CifraCesar;
 
 import java.util.Scanner;
 

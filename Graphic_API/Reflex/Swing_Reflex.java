@@ -66,7 +66,7 @@ public class Swing_Reflex extends JFrame {
 
     private void iniciarTimer() {
         // Configura um timer para exibir um novo alvo após um intervalo de tempo aleatório
-        int intervalo = 1000 + new Random().nextInt(3000); // Intervalo entre 1 e 4 segundos
+        int intervalo = 1000 + new Random().nextInt(2000); // Intervalo entre 1 e 3 segundos
         timer = new Timer(intervalo, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

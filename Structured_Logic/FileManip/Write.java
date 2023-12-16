@@ -27,7 +27,7 @@ public class Write {
 
                 salvarRegistro(dataOutputStream, nome, codigo, nota1, nota2);
 
-                // Limpar o buffer após a leitura do inteiro para evitar problemas
+                
                 scanner.nextLine();
             }
 

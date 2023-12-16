@@ -27,7 +27,6 @@ public class WriteText {
 
                 salvarRegistro(printWriter, nome, codigo, nota1, nota2);
 
-                // Limpar o buffer após a leitura do inteiro para evitar problemas
                 scanner.nextLine();
             }
 
@@ -44,7 +43,7 @@ public class WriteText {
         printWriter.println("Código: " + codigo);
         printWriter.println("Nota Bimestral 1: " + nota1);
         printWriter.println("Nota Bimestral 2: " + nota2);
-        printWriter.println(); // Adicionar uma linha em branco para separar os registros
+        printWriter.println(); 
     }
     
 }

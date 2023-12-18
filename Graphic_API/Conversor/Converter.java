@@ -4,105 +4,118 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Converter extends JFrame {
 
     private boolean PadrãoDeCalc = true;
-
     private JPanel PainelInicial;
-    private JTextField Decimal, Binario;
+    private JTextField Entrada, Saida;
     private JButton inverte, calcular;
+    private JLabel tipoConversaoLabel;
 
     public Converter() {
         setTitle("Conversor Int <-> Dec");
-        setSize(400, 300);
+        setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Criação e configuração do JTextField Decimal
-        Decimal = new JTextField("Decimal");
-        Decimal.setPreferredSize(new Dimension(150, 30));
-        Decimal.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (Decimal.getText().equals("Decimal")) {
-                    Decimal.setText("");
-                }
+        Entrada = new JTextField();
+        Entrada.setPreferredSize(new Dimension(150, 30));
+        Saida = new JTextField() {
+            {
+                setText("Resultado");
+                setEditable(false);
             }
+        };
+        Saida.setPreferredSize(new Dimension(150, 30));
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (Decimal.getText().isEmpty()) {
-                    Decimal.setText("Decimal");
-                }
+        tipoConversaoLabel = new JLabel("Decimal >>> Binário");
+
+        inverte = new JButton("INVERTER") {
+            {
+                setPreferredSize(new Dimension(150, 50));
             }
-        });
-
-        // Criação e configuração do JTextField Binario
-        Binario = new JTextField("Binário");
-        Binario.setPreferredSize(new Dimension(150, 30));
-        Binario.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if (Binario.getText().equals("Binário")) {
-                    Binario.setText("");
-                }
+        };
+        calcular = new JButton("CALCULAR") {
+            {
+                setPreferredSize(new Dimension(150, 50));
             }
+        };
 
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (Binario.getText().isEmpty()) {
-                    Binario.setText("Binário");
-                }
-            }
-        });
-
-        // Criação de botões com ícones de seta para a direita e para a esquerda
-        Icon calc = new ImageIcon("Graphic_API\\Conversor\\play.jpg");
-        Icon setas = new ImageIcon("Graphic_API\\Conversor\\inverte.jpg");
-
-        inverte = new JButton(setas);
-        calcular = new JButton(calc);
-        
-        // Adicionando ação ao botão "calcular"
+        // Ação ao botão "calcular"
         calcular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(PadrãoDeCalc == true){
-
-                }
-                else{
-                    
-                }
+                realizarConversao();
             }
         });
 
+        // Ação ao botão "inverte"
         inverte.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Saida.setText("Resultado");
+                Entrada.setText("");
                 PadrãoDeCalc = !PadrãoDeCalc;
+                tipoConversaoLabel.setText(PadrãoDeCalc ? "Decimal >>> Binário" : "Binário >>> Decimal");
             }
         });
 
+        // Deixa já "Clicada"
+        Entrada.requestFocus();
+        Entrada.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
 
+            @Override
+            public void keyReleased(KeyEvent e) {}
 
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    realizarConversao();
+                }
+            }
 
+           
+        });
 
-
-        // Criação do JPanel e configuração do layout FlowLayout
         PainelInicial = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
-
-        PainelInicial.add(Decimal);
-        PainelInicial.add(Binario);
+        PainelInicial.add(Entrada);
+        PainelInicial.add(Saida);
         PainelInicial.add(inverte);
         PainelInicial.add(calcular);
+        PainelInicial.add(tipoConversaoLabel);
 
         add(PainelInicial);
         setVisible(true);
     }
 
+    private void realizarConversao() {
+        if (PadrãoDeCalc) {
+            String entrada = Entrada.getText();
+            try {
+                int valorDecimal = Integer.parseInt(entrada);
+                String valorBinario = Integer.toBinaryString(valorDecimal);
+                Saida.setText(valorBinario);
+                tipoConversaoLabel.setText("Decimal >>> Binário");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(Converter.this, "Entrada inválida. Digite um número decimal válido.");
+            }
+        } else {
+            String entrada = Entrada.getText();
+            try {
+                int valorDecimal = Integer.parseInt(entrada, 2);
+                Saida.setText(String.valueOf(valorDecimal));
+                tipoConversaoLabel.setText("Binário >>> Decimal");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(Converter.this, "Entrada inválida. Digite um número binário válido.");
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Converter());
+        new Converter();
     }
 }

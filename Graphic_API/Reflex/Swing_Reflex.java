@@ -10,7 +10,7 @@ public class Swing_Reflex extends JFrame {
     private JPanel startPanel;
     private JPanel gamePanel;
     private Timer timer;
-    private long tempoInicial;
+    private long ultimoClique;
     private int x, y;
     private final int alvoSize = 50; // Tamanho do alvo
     private int dificuldade; // 1 - Fácil, 2 - Médio, 3 - Difícil
@@ -66,11 +66,16 @@ public class Swing_Reflex extends JFrame {
 
                 mostrarComentario(distancia);
 
-                long tempoDecorrido = (System.currentTimeMillis() - tempoInicial) ; // Convertendo para segundos
+                long tempoDecorrido = System.currentTimeMillis() - ultimoClique;
                 JOptionPane.showMessageDialog(Swing_Reflex.this, "Tempo decorrido: " + tempoDecorrido + "ms");
 
-                // Reinicia o timer para exibir o próximo alvo
-                iniciarTimer();
+                // Registra o tempo do último clique
+                ultimoClique = System.currentTimeMillis();
+
+                // Verifica se o timer está em execução antes de reiniciá-lo
+                if (timer == null || !timer.isRunning()) {
+                    iniciarTimer();
+                }
             }
         });
 
@@ -83,39 +88,41 @@ public class Swing_Reflex extends JFrame {
     }
 
     private void iniciarTimer() {
+        ultimoClique = System.currentTimeMillis();
+
         // Define a dificuldade com base na velocidade de variação da posição do alvo
         int delay;
         switch (dificuldade) {
             case 1:
-                delay = 1500; // Fácil
+                delay = getRandomDelay(1000, 1500); // Fácil (entre 1.0 s e 1.5 s)
                 break;
             case 2:
-                delay = 1000; // Médio
+                delay = getRandomDelay(700, 1100); // Médio (entre 0.7 s e 1.1 s)
                 break;
             case 3:
-                delay = 750;  // Difícil
+                delay = getRandomDelay(500, 900); // Difícil (entre 0.5 s e 1.2 s)
                 break;
             default:
-                delay = 1000;
+                delay = getRandomDelay(1000, 1500); // Valor padrão (entre 1.0 s e 1.5 s)
         }
 
-        // Configura um timer para atualizar a posição do alvo
-        timer = new Timer(delay, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Atualiza a posição do alvo aleatoriamente
-                x = new Random().nextInt(gamePanel.getWidth() - alvoSize);
-                y = new Random().nextInt(gamePanel.getHeight() - alvoSize);
+        // Configura um timer apenas se não estiver em execução
+        if (timer == null || !timer.isRunning()) {
+            // Configura um timer para atualizar a posição do alvo
+            timer = new Timer(delay, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Atualiza a posição do alvo aleatoriamente
+                    x = new Random().nextInt(gamePanel.getWidth() - alvoSize);
+                    y = new Random().nextInt(gamePanel.getHeight() - alvoSize);
 
-                // Redesenha o painel para exibir o alvo na nova posição
-                gamePanel.repaint();
-
-                // Registra o tempo inicial quando o alvo é exibido
-                tempoInicial = System.currentTimeMillis();
-            }
-        });
-        timer.setRepeats(true); // Repetição automática
-        timer.start();
+                    // Redesenha o painel para exibir o alvo na nova posição
+                    gamePanel.repaint();
+                }
+            });
+            timer.setRepeats(true); // Repetição automática
+            timer.start();
+        }
     }
 
     private void mostrarComentario(double distancia) {
@@ -136,6 +143,11 @@ public class Swing_Reflex extends JFrame {
 
     private double calcularDistancia(int x1, int y1, int x2, int y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
+    private int getRandomDelay(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min + 1) + min;
     }
 
     public static void main(String[] args) {

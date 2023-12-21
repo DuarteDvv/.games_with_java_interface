@@ -1,4 +1,4 @@
-package Graphic_API.Reflex;
+package Reflex;
 
 import javax.swing.*;
 import java.awt.*;

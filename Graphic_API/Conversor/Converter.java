@@ -1,4 +1,4 @@
-package Graphic_API.Conversor;
+package Conversor;
 
 import javax.swing.*;
 import java.awt.*;

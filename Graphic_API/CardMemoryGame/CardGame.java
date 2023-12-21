@@ -2,10 +2,10 @@ package CardMemoryGame;
 
 import java.util.*;
 import javax.swing.*;
-import java.awt.event.*
+import java.awt.event.*;
 
 
-public class CardGame extends Jframe{
+public class CardGame extends JFrame{
 
 
 
@@ -13,7 +13,7 @@ public class CardGame extends Jframe{
         setTitle("MemoryCard");
         setSize(500,800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Jpanel Dificuldade = new Jpanel();
+        JPanel Dificuldade = new JPanel();
 
 
 
@@ -30,7 +30,7 @@ public class CardGame extends Jframe{
 
 
 
-        Jpanel Base = new Jpanel();
+        JPanel Base = new JPanel();
         add(Base);
 
     }

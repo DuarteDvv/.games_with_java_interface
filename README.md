@@ -1,2 +1,2 @@
 # Java
-Exercicios de livros/listas/origianis que exploram JAVA 
+Exercicios de livros/listas/originais que exploram JAVA 

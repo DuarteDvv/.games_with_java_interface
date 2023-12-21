@@ -11,7 +11,7 @@ public class SequenceGame extends JFrame {
 
     private int Quantidade = 1;
     private Random Rand;
-    private JPanel Panel;
+    private JPanel GamePanel;
     private JButton A,B,C,D,E;
     private JButton[] Amostra = [A,B,C,D,E];
     private ArrayList<JButton> MachineOrder = new ArrayList<>();
@@ -24,6 +24,11 @@ public class SequenceGame extends JFrame {
         setLayout(new FlowLayout());
 
 
+        JPanel Dificult = new JPanel(){
+            //selecionar dificuldade
+
+        };
+
         
 
 
@@ -32,7 +37,7 @@ public class SequenceGame extends JFrame {
             public void actionPerformed(ActionEvent e){
                 UserClicks.add((JButton) e.getSource());
                 //muda cor
-                
+
 
             }
         };
@@ -65,15 +70,15 @@ public class SequenceGame extends JFrame {
 
         
         
-        Panel = new JPanel();
+        GamePanel = new JPanel();
 
-        Panel.add(A);
-        Panel.add(B);
-        Panel.add(C);
-        Panel.add(D);
-        Panel.add(E);
+        GamePanel.add(A);
+        GamePanel.add(B);
+        GamePanel.add(C);
+        GamePanel.add(D);
+        GamePanel.add(E);
 
-        add(Panel);
+        add(GamePanel);
         setVisible(true);
     }
 

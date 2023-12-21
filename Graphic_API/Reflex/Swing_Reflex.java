@@ -53,7 +53,6 @@ public class Swing_Reflex extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-                // Desenha o alvo na posição atual
                 g.setColor(Color.RED);
                 g.fillOval(x, y, alvoSize, alvoSize);
             }
@@ -81,7 +80,6 @@ public class Swing_Reflex extends JFrame {
 
         add(gamePanel);
 
-        // Inicia o timer para exibir o primeiro alvo
         iniciarTimer();
 
         setVisible(true);
@@ -108,19 +106,19 @@ public class Swing_Reflex extends JFrame {
 
         // Configura um timer apenas se não estiver em execução
         if (timer == null || !timer.isRunning()) {
-            // Configura um timer para atualizar a posição do alvo
+            
             timer = new Timer(delay, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
                     // Atualiza a posição do alvo aleatoriamente
                     x = new Random().nextInt(gamePanel.getWidth() - alvoSize);
                     y = new Random().nextInt(gamePanel.getHeight() - alvoSize);
 
-                    // Redesenha o painel para exibir o alvo na nova posição
                     gamePanel.repaint();
                 }
             });
-            timer.setRepeats(true); // Repetição automática
+            timer.setRepeats(true); 
             timer.start();
         }
     }

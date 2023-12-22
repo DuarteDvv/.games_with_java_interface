@@ -6,45 +6,50 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SequenceGame extends JFrame {
-    private int CurrentButton = 0;
-    private int Quantidade = 1;
-    private Random Rand = new Random();
-    private JPanel GamePanel;
+    private int currentButton = 0;
+    private int quantidade = 1;
+    private Random rand = new Random();
+    private JPanel gamePanel;
     private JButton A, B, C, D, E;
-    private JButton[] Amostra;
-    private ArrayList<JButton> MachineOrder = new ArrayList<>();
+    private JButton[] amostra;
+    private List<JButton> machineOrder = new ArrayList<>();
+    private JLabel nivelLabel;
 
     SequenceGame() {
         setTitle("Sequence Memory Game");
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ActionListener Action = new ActionListener() {
+        ActionListener action = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JButton Button = (JButton) e.getSource();
-                Button.setBackground(Color.GREEN);
-                if (Button != MachineOrder.get(CurrentButton)) {
+                JButton button = (JButton) e.getSource();
+                button.setBackground(Color.GREEN);
+
+                if (button != machineOrder.get(currentButton)) {
                     JOptionPane.showMessageDialog(null, "Sequência incorreta! Fim do Jogo.");
                     System.exit(0);
-                } 
-                else {
-                    CurrentButton++;
-                    if (CurrentButton == Quantidade) {
-                        // O jogador acertou toda a sequência
+                } else {
+                    currentButton++;
+                    if (currentButton == quantidade) {
                         JOptionPane.showMessageDialog(null, "Sequência correta! Avançando para o próximo nível.");
-                        Quantidade++;
-                        StartGame();
+                        quantidade++;
+                        nivelLabel.setText("VOCÊ ESTÁ NO NÍVEL >> " + quantidade + " <<");
+                        startGame();
                     }
                 }
 
                 Timer timer = new Timer(500, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e2) {
-                        Button.setBackground(Color.RED);
+                        button.setBackground(Color.RED);
+                        if (currentButton == 0) {
+                            executeMachineOrder();
+                        }
                     }
                 });
                 timer.setRepeats(false);
@@ -52,116 +57,88 @@ public class SequenceGame extends JFrame {
             }
         };
 
-        A = new JButton() {
-            {
-                setBackground(Color.red);
-                addActionListener(Action);
-                setEnabled(false);
-            }
-        };
-        B = new JButton() {
-            {
-                setBackground(Color.red);
-                addActionListener(Action);
-                setEnabled(false);
-            }
-        };
-        C = new JButton() {
-            {
-                setBackground(Color.red);
-                addActionListener(Action);
-                setEnabled(false);
-            }
-        };
-        D = new JButton() {
-            {
-                setBackground(Color.red);
-                addActionListener(Action);
-                setEnabled(false);
-            }
-        };
-        E = new JButton() {
-            {
-                setBackground(Color.red);
-                addActionListener(Action);
-                setEnabled(false);
-            }
-        };
+        A = new JButton();
+        B = new JButton();
+        C = new JButton();
+        D = new JButton();
+        E = new JButton();
 
-        Amostra = new JButton[]{A, B, C, D, E};
+        amostra = new JButton[]{A, B, C, D, E};
 
-        JLabel Nivel = new JLabel();
+        nivelLabel = new JLabel();
+        nivelLabel.setText("VOCÊ ESTÁ NO NÍVEL >> " + quantidade + " <<");
 
-        // Use GridLayout para organizar os botões simetricamente
-        GamePanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        gamePanel = new JPanel(new GridLayout(3, 2, 10, 10));
 
-        GamePanel.add(A);
-        GamePanel.add(B);
-        GamePanel.add(C);
-        GamePanel.add(D);
-        GamePanel.add(E);
-        GamePanel.add(Nivel);
+        for (JButton button : amostra) {
+            button.setBackground(Color.RED);
+            button.addActionListener(action);
+            button.setEnabled(false);
+            gamePanel.add(button);
+        }
 
-        add(GamePanel);
+        gamePanel.add(nivelLabel);
+
+        add(gamePanel);
         setVisible(true);
-        StartGame();
+        startGame();
     }
 
-    public void StartGame() {
-        desativarBotoes();
-
-        Nivel.setText("VOCÊ ESTA NO NIVEL >> " + Quantidade + " <<");
-
-        CurrentButton = 0;
-        MachineOrder.clear();
-
-        for (int i = 0; i < Quantidade; i++) {
-            JButton RandBt = Amostra[Rand.nextInt(5)];
-            MachineOrder.add(RandBt);
-        }
-
-        for (JButton n : MachineOrder) {
-            n.setBackground(Color.GREEN);
-            Timer timer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e2) {
-                    n.setBackground(Color.RED);
-                }
-            });
-            timer.setRepeats(false);
-            timer.start();
-        }
-
-        ativarBotoes();
-
-        //usuario clicktime
-
-        Timer ClickTime = new Timer(100000, new ActionListener(){
+    private void executeMachineOrder() {
+        SwingWorker<Void, JButton> worker = new SwingWorker<Void, JButton>() {
             @Override
-            public void actionPerformed(ActionEvent e3){
-                ClickTime.restart();
+            protected Void doInBackground() throws Exception {
+                desativarBotoes();
+                Thread.sleep(1000);
+
+                for (JButton button : machineOrder) {
+                    button.setBackground(Color.GREEN);
+                    publish(button);
+                    Thread.sleep(1000);
+                    button.setBackground(Color.RED);
+                    Thread.sleep(500);
+                }
+                return null;
             }
-        });
 
-        ClickTime.start();
+            @Override
+            protected void process(List<JButton> chunks) {
+                for (JButton button : chunks) {
+                    button.setBackground(Color.GREEN);
+                }
+            }
 
+            @Override
+            protected void done() {
+                ativarBotoes();
+            }
+        };
 
+        worker.execute();
+    }
+
+    public void startGame() {
+        currentButton = 0;
+        machineOrder.clear();
+
+        for (int i = 0; i < quantidade; i++) {
+            JButton randButton = amostra[rand.nextInt(5)];
+            machineOrder.add(randButton);
+        }
+
+        executeMachineOrder();
     }
 
     public void ativarBotoes() {
-        A.setEnabled(true);
-        B.setEnabled(true);
-        C.setEnabled(true);
-        D.setEnabled(true);
-        E.setEnabled(true);
+        for (JButton button : amostra) {
+            button.setEnabled(true);
+        }
     }
 
     public void desativarBotoes() {
-        A.setEnabled(false);
-        B.setEnabled(false);
-        C.setEnabled(false);
-        D.setEnabled(false);
-        E.setEnabled(false);
+        for (JButton button : amostra) {
+            button.setEnabled(false);
+        }
     }
 
     public static void main(String[] args) {

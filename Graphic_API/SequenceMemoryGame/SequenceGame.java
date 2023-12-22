@@ -30,7 +30,8 @@ public class SequenceGame extends JFrame {
                 if (Button != MachineOrder.get(CurrentButton)) {
                     JOptionPane.showMessageDialog(null, "Sequência incorreta! Fim do Jogo.");
                     System.exit(0);
-                } else {
+                } 
+                else {
                     CurrentButton++;
                     if (CurrentButton == Quantidade) {
                         // O jogador acertou toda a sequência
@@ -89,7 +90,7 @@ public class SequenceGame extends JFrame {
 
         Amostra = new JButton[]{A, B, C, D, E};
 
-        JLabel Nivel = new JLabel("SEU NIVEL ATUAL É \n >> " + Quantidade + " <<");
+        JLabel Nivel = new JLabel();
 
         // Use GridLayout para organizar os botões simetricamente
         GamePanel = new JPanel(new GridLayout(3, 2, 10, 10));
@@ -107,6 +108,10 @@ public class SequenceGame extends JFrame {
     }
 
     public void StartGame() {
+        desativarBotoes();
+
+        Nivel.setText("VOCÊ ESTA NO NIVEL >> " + Quantidade + " <<");
+
         CurrentButton = 0;
         MachineOrder.clear();
 
@@ -117,7 +122,7 @@ public class SequenceGame extends JFrame {
 
         for (JButton n : MachineOrder) {
             n.setBackground(Color.GREEN);
-            Timer timer = new Timer(1600, new ActionListener() {
+            Timer timer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e2) {
                     n.setBackground(Color.RED);
@@ -128,6 +133,19 @@ public class SequenceGame extends JFrame {
         }
 
         ativarBotoes();
+
+        //usuario clicktime
+
+        Timer ClickTime = new Timer(100000, new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e3){
+                ClickTime.restart();
+            }
+        });
+
+        ClickTime.start();
+
+
     }
 
     public void ativarBotoes() {

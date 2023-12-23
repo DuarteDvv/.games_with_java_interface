@@ -85,7 +85,7 @@ public class SequenceGame extends JFrame {
     }
 
     private void executeMachineOrder() {
-        SwingWorker<Void, JButton> worker = new SwingWorker<Void, JButton>() {
+        SwingWorker<Void, JButton> worker = new SwingWorker<Void, JButton>() { //coloca em segundo plano para melhorar sincronia
             @Override
             protected Void doInBackground() throws Exception {
                 desativarBotoes();

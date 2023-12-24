@@ -66,9 +66,9 @@ public class SequenceGame extends JFrame {
         amostra = new JButton[]{A, B, C, D, E};
 
         nivelLabel = new JLabel();
-        nivelLabel.setText("VOCÊ ESTÁ NO NÍVEL >> " + quantidade + " <<");
+        nivelLabel.setText("   VOCÊ ESTÁ NO NÍVEL >> " + quantidade + " <<");
 
-        gamePanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        gamePanel = new JPanel(new GridLayout(3, 2));
 
         for (JButton button : amostra) {
             button.setBackground(Color.RED);

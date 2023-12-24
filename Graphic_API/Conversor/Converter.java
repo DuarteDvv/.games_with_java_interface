@@ -81,7 +81,7 @@ public class Converter extends JFrame {
            
         });
 
-        PainelInicial = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        PainelInicial = new JPanel(new FlowLayout(FlowLayout.LEFT,20,20));
         PainelInicial.add(Entrada);
         PainelInicial.add(Saida);
         PainelInicial.add(inverte);

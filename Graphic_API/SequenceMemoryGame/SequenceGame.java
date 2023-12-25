@@ -75,9 +75,12 @@ public class SequenceGame extends JFrame {
             button.addActionListener(action);
             button.setEnabled(false);
             gamePanel.add(button);
+            
         }
 
         gamePanel.add(nivelLabel);
+
+        
 
         add(gamePanel);
         setVisible(true);

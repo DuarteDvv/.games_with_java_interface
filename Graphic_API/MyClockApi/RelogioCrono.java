@@ -146,7 +146,7 @@ public class RelogioCrono extends JFrame {
                     timing.start();
                     isTimerRunning = true;
                 } else {
-                    // Se o timer estiver em execução, pausa
+                    
                     timing.stop();
                     isTimerRunning = false;
                 }
@@ -201,10 +201,9 @@ public class RelogioCrono extends JFrame {
                     timing.start();
                     isTimerRunning = true;
                 } else {
-                    // Se o timer estiver em execução, pausa
                     timing.stop();
                     isTimerRunning = false;
-                    T2 = 0; // Reinicia o contador ao pausar
+                    T2 = 0; 
                     Tempo.setText("" + T2);
                 }
             }

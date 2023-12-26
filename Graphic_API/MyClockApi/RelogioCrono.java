@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.awt.event.*;
 
 public class RelogioCrono extends JFrame{
 

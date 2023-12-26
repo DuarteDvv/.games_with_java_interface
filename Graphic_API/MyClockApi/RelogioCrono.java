@@ -2,6 +2,9 @@ package MyClockApi;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class RelogioCrono extends JFrame{
 
@@ -39,14 +42,17 @@ public class RelogioCrono extends JFrame{
 
     public void createClockScreen(){
         ClockPanel = new JPanel();
+        SimpleDateFormat Formata = new SimpleDateFormat("dd/MM/yyyy");
+        // Locale
 
-        ClockPanel.
+        JLabel Data,Horario;
+
+        
 
     }
 
     public void createTimerScreen(){
         TimerPanel = new JPanel();
-
     }
 
     public void createCountScreen(){
@@ -54,6 +60,7 @@ public class RelogioCrono extends JFrame{
     }
 
     public void setScreen(String escolha){
+
         switch(escolha){
             case "Clock":
                 currentScreen = ClockPanel;
@@ -68,7 +75,7 @@ public class RelogioCrono extends JFrame{
                 
         }
 
-        add(currentScreen,BorderLayout.CENTER);
+        add(currentScreen,BorderLayout.CENTER); //trocar
 
     }
 

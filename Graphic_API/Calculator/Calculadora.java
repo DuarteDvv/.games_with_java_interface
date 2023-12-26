@@ -54,19 +54,19 @@ public class Calculadora extends JFrame {
             JButton buttonClicked = (JButton) e.getSource();
             String buttonText = buttonClicked.getText();
     
-            // Se o campo currentInput estiver vazio e o botão clicado for um operador, ignore a ação
+            
             if (currentInput.isEmpty() && estaContido(buttonText, operators)) {
                 return;
             }
     
-            // Verifique se o botão pressionado é um número
+           
             if (estaContido(buttonText, numbers)) {
                 currentInput += buttonText;
                 lastClickedOperator = false;
                 txtDisplay.setText(currentInput);
                 atualizarStatusBotoesOperadores();
             } else {
-                // Verifique se o botão pressionado é um operador
+                
                 if (estaContido(buttonText, operators)) {
                   
                     switch (buttonText) {
@@ -90,7 +90,7 @@ public class Calculadora extends JFrame {
             
                 } 
                 else {
-                    // Processar outros botões como "Clear", "<<", "="
+                    
                     switch (buttonText) {
                         case "Clear":
                             currentInput = "";

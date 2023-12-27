@@ -13,7 +13,19 @@ public class Paint extends JFrame {
     private int espessuraFonteAtual = 4;
     private Color currentColorFont = Color.BLACK;
     private boolean eraser = false;
-    private Color[] paleta = {Color.BLACK,Color.BLUE,Color.CYAN,Color.DARK_GRAY,Color.GRAY,Color.GREEN,Color.LIGHT_GRAY, Color.MAGENTA,Color.ORANGE, Color.PINK,Color.RED,Color.WHITE,Color.YELLOW};
+    private Color[] paleta = {Color.BLACK, Color.BLUE, Color.CYAN, Color.DARK_GRAY, Color.GRAY, Color.GREEN,
+            Color.LIGHT_GRAY, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.RED, Color.WHITE, Color.YELLOW};
+
+    private static final float[] DASHED_PATTERN = {5f, 5f};
+    private static final float[] DOTTED_PATTERN = {2f, 2f};
+
+    private enum LineType {
+        SOLID,
+        DASHED,
+        DOTTED
+    }
+
+    private LineType currentLineType = LineType.SOLID;
 
     Paint() {
         setTitle("MyPaint");
@@ -25,7 +37,6 @@ public class Paint extends JFrame {
         setVisible(true);
     }
 
-    
     private void criarAreaDesenho() {
         areaDesenho = new JPanel();
 
@@ -37,25 +48,27 @@ public class Paint extends JFrame {
             }
         });
 
-        areaDesenho.addMouseMotionListener(new MouseAdapter(){
+        areaDesenho.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 int newX = e.getX();
                 int newY = e.getY();
 
-                Graphics l = getGraphics();
-                Graphics2D lapis = (Graphics2D) l;
+                Graphics g = getGraphics();
+                Graphics2D pencil = (Graphics2D) g;
 
-                if(eraser){
-                    lapis.setColor(areaDesenho.getBackground());
+                if (eraser) {
+                    pencil.setColor(areaDesenho.getBackground());
+                    pencil.setStroke(new BasicStroke(espessuraFonteAtual, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                } else {
+                    pencil.setColor(currentColorFont);
+                    float[] pattern = currentLineType == LineType.DASHED ? DASHED_PATTERN :
+                            currentLineType == LineType.DOTTED ? DOTTED_PATTERN :
+                                    null;
+                    pencil.setStroke(new BasicStroke(espessuraFonteAtual, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1f, pattern, 0f));
                 }
-                else{
-                    lapis.setColor(currentColorFont);
-                    lapis.setStroke(new BasicStroke(espessuraFonteAtual, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                }
-                
 
-                lapis.drawLine(lastX, lastY, newX, newY);
+                pencil.drawLine(lastX, lastY, newX, newY);
 
                 lastX = newX;
                 lastY = newY;
@@ -70,85 +83,111 @@ public class Paint extends JFrame {
     private void criarBarraDeOpcoes() {
         JMenuBar barraDeOpcoes = new JMenuBar();
 
-        JMenu drawFiguresMenu = new JMenu("DrawFigures"){ //color ?
 
-        };
-
-        JMenu LineTypeMenu = new JMenu("LineType"){
-
-        };
-
-        JMenu borrachaMenu = new JMenu("Erase"){
+        JMenu LineTypeMenu = new JMenu("LineType") {
             {
-                add(new JMenuItem("Erase All"){
+                JMenuItem solidLine = new JMenuItem("Solid Line");
+                JMenuItem dashedLine = new JMenuItem("Dashed Line");
+                JMenuItem dottedLine = new JMenuItem("Dotted Line");
+
+                solidLine.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setLineType(LineType.SOLID);
+                    }
+                });
+
+                dashedLine.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setLineType(LineType.DASHED);
+                    }
+                });
+
+                dottedLine.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setLineType(LineType.DOTTED);
+                    }
+                });
+
+                add(solidLine);
+                add(dashedLine);
+                add(dottedLine);
+            }
+        };
+
+        JMenu borrachaMenu = new JMenu("Erase") {
+            {
+                add(new JMenuItem("Erase All") {
                     {
-                        addActionListener(new ActionListener(){
+                        addActionListener(new ActionListener() {
                             @Override
-                            public void actionPerformed(){
+                            public void actionPerformed(ActionEvent e) {
                                 areaDesenho.repaint();
                             }
                         });
-                        
                     }
                 });
 
-                add(new JMenuItem("Erase Pencil"){
+                add(new JMenuItem("Erase Pencil") {
                     {
-                        addActionListener(new ActionListener(){
+                        addActionListener(new ActionListener() {
                             @Override
-                            public void actionPerformed(){ //trocar cor do menu
-
-                                eraser = !eraser;
+                            public void actionPerformed(ActionEvent e) {
+                                if (!eraser) {
+                                    eraser = true;
+                                    setBackground(Color.GREEN);
+                                } else {
+                                    setBackground(null);
+                                    eraser = false;
+                                }
                             }
                         });
-                        
                     }
                 });
             }
         };
 
-        JMenu fontColorMenu = new JMenu("FontColor"){
+        JMenu fontColorMenu = new JMenu("FontColor") {
             {
-                for(Color c : paleta){
-                    add(new JMenuItem(){
-                        {   
+                for (Color c : paleta) {
+                    add(new JMenuItem() {
+                        {
                             setBackground(c);
                             addActionListener(new ActionListener() {
                                 @Override
-                                public void actionPerformed(ActionEvent e){
+                                public void actionPerformed(ActionEvent e) {
                                     currentColorFont = c;
-                                    
                                 }
                             });
-                            
                         }
                     });
                 }
             }
         };
-            
-        JMenu backColorMenu = new JMenu("BackgroundColor"){
+
+        JMenu backColorMenu = new JMenu("BackgroundColor") {
             {
-                for(Color c : paleta){
-                    add(new JMenuItem(){
-                        {   
+                for (Color c : paleta) {
+                    add(new JMenuItem() {
+                        {
                             setBackground(c);
                             addActionListener(new ActionListener() {
                                 @Override
-                                public void actionPerformed(ActionEvent e){
+                                public void actionPerformed(ActionEvent e) {
                                     areaDesenho.setBackground(c);
                                 }
                             });
-                            
                         }
                     });
                 }
             }
         };
 
-
         JMenu fontSizeMenu = new JMenu("FontSize") {
             JLabel espc = new JLabel("" + espessuraFonteAtual);
+
             {
                 add(new JButton("+") {
                     {
@@ -162,15 +201,14 @@ public class Paint extends JFrame {
                     }
                 });
 
-                
                 add(espc);
-        
+
                 add(new JButton("_") {
                     {
                         addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                espessuraFonteAtual = Math.max(2, espessuraFonteAtual - 1); 
+                                espessuraFonteAtual = Math.max(2, espessuraFonteAtual - 1);
                                 espc.setText("" + espessuraFonteAtual);
                             }
                         });
@@ -178,20 +216,21 @@ public class Paint extends JFrame {
                 });
             }
         };
-        
-        
-       
 
         barraDeOpcoes.add(borrachaMenu);
         barraDeOpcoes.add(fontColorMenu);
         barraDeOpcoes.add(backColorMenu);
         barraDeOpcoes.add(fontSizeMenu);
+        barraDeOpcoes.add(LineTypeMenu);
 
-        setJMenuBar(barraDeOpcoes); 
+        setJMenuBar(barraDeOpcoes);
     }
 
+    private void setLineType(LineType lineType) {
+        currentLineType = lineType;
+    }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Paint());
+        new Paint();
     }
 }

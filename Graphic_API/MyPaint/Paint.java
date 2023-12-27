@@ -96,7 +96,8 @@ public class Paint extends JFrame {
                     {
                         addActionListener(new ActionListener(){
                             @Override
-                            public void actionPerformed(){
+                            public void actionPerformed(){ //trocar cor do menu
+
                                 eraser = !eraser;
                             }
                         });

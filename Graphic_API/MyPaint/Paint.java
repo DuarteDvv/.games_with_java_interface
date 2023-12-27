@@ -12,6 +12,7 @@ public class Paint extends JFrame {
     private JPanel areaDesenho;
     private int espessuraFonteAtual = 4;
     private Color currentColorFont = Color.BLACK;
+    private boolean eraser = false;
     private Color[] paleta = {Color.BLACK,Color.BLUE,Color.CYAN,Color.DARK_GRAY,Color.GRAY,Color.GREEN,Color.LIGHT_GRAY, Color.MAGENTA,Color.ORANGE, Color.PINK,Color.RED,Color.WHITE,Color.YELLOW};
 
     Paint() {
@@ -44,8 +45,15 @@ public class Paint extends JFrame {
 
                 Graphics l = getGraphics();
                 Graphics2D lapis = (Graphics2D) l;
-                lapis.setColor(currentColorFont);
-                lapis.setStroke(new BasicStroke(espessuraFonteAtual, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+
+                if(eraser){
+                    lapis.setColor(areaDesenho.getBackground());
+                }
+                else{
+                    lapis.setColor(currentColorFont);
+                    lapis.setStroke(new BasicStroke(espessuraFonteAtual, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                }
+                
 
                 lapis.drawLine(lastX, lastY, newX, newY);
 
@@ -62,8 +70,40 @@ public class Paint extends JFrame {
     private void criarBarraDeOpcoes() {
         JMenuBar barraDeOpcoes = new JMenuBar();
 
-        JMenu borrachaMenu = new JMenu("Erase"){
+        JMenu drawFiguresMenu = new JMenu("DrawFigures"){ //color ?
 
+        };
+
+        JMenu LineTypeMenu = new JMenu("LineType"){
+
+        };
+
+        JMenu borrachaMenu = new JMenu("Erase"){
+            {
+                add(new JMenuItem("Erase All"){
+                    {
+                        addActionListener(new ActionListener(){
+                            @Override
+                            public void actionPerformed(){
+                                areaDesenho.repaint();
+                            }
+                        });
+                        
+                    }
+                });
+
+                add(new JMenuItem("Erase Pencil"){
+                    {
+                        addActionListener(new ActionListener(){
+                            @Override
+                            public void actionPerformed(){
+                                eraser = !eraser;
+                            }
+                        });
+                        
+                    }
+                });
+            }
         };
 
         JMenu fontColorMenu = new JMenu("FontColor"){

@@ -9,9 +9,9 @@ import java.awt.event.KeyListener;
 
 public class Converter extends JFrame {
 
-    private boolean PadrãoDeCalc = true;
-    private JPanel PainelInicial;
-    private JTextField Entrada, Saida;
+    private boolean padraoDeCalc = true;
+    private JPanel painelInicial;
+    private JTextField entrada, saida;
     private JButton inverte, calcular;
     private JLabel tipoConversaoLabel;
 
@@ -20,15 +20,15 @@ public class Converter extends JFrame {
         setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Entrada = new JTextField();
-        Entrada.setPreferredSize(new Dimension(150, 30));
-        Saida = new JTextField() {
+        entrada = new JTextField();
+        entrada.setPreferredSize(new Dimension(150, 30));
+        saida = new JTextField() {
             {
                 setText("Resultado");
                 setEditable(false);
             }
         };
-        Saida.setPreferredSize(new Dimension(150, 30));
+        saida.setPreferredSize(new Dimension(150, 30));
 
         tipoConversaoLabel = new JLabel("Decimal >>> Binário");
 
@@ -55,16 +55,16 @@ public class Converter extends JFrame {
         inverte.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Saida.setText("Resultado");
-                Entrada.setText("");
-                PadrãoDeCalc = !PadrãoDeCalc;
-                tipoConversaoLabel.setText(PadrãoDeCalc ? "Decimal >>> Binário" : "Binário >>> Decimal");
+                saida.setText("Resultado");
+                entrada.setText("");
+                padraoDeCalc = !padraoDeCalc;
+                tipoConversaoLabel.setText(padraoDeCalc ? "Decimal >>> Binário" : "Binário >>> Decimal");
             }
         });
 
         // Deixa já "Clicada"
-        Entrada.requestFocus();
-        Entrada.addKeyListener(new KeyListener() {
+        entrada.requestFocus();
+        entrada.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {}
 
@@ -81,36 +81,36 @@ public class Converter extends JFrame {
            
         });
 
-        PainelInicial = new JPanel(new FlowLayout(FlowLayout.LEFT,20,20));
-        PainelInicial.add(Entrada);
-        PainelInicial.add(Saida);
-        PainelInicial.add(inverte);
-        PainelInicial.add(calcular);
-        PainelInicial.add(tipoConversaoLabel);
+        painelInicial = new JPanel(new FlowLayout(FlowLayout.LEFT,20,20));
+        painelInicial.add(entrada);
+        painelInicial.add(saida);
+        painelInicial.add(inverte);
+        painelInicial.add(calcular);
+        painelInicial.add(tipoConversaoLabel);
 
-        add(PainelInicial);
+        add(painelInicial);
         setVisible(true);
     }
 
     private void realizarConversao() {
-        if (PadrãoDeCalc) {
-            String entrada = Entrada.getText();
+        if (padraoDeCalc) {
+            String entrada = entrada.getText();
             try {
                 int valorDecimal = Integer.parseInt(entrada);
                 String valorBinario = Integer.toBinaryString(valorDecimal);
-                Saida.setText(valorBinario);
+                saida.setText(valorBinario);
                 tipoConversaoLabel.setText("Decimal >>> Binário");
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(Converter.this, "Entrada inválida. Digite um número decimal válido.");
+                JOptionPane.showMessageDialog(Converter.this, "entrada inválida. Digite um número decimal válido.");
             }
         } else {
-            String entrada = Entrada.getText();
+            String entrada = entrada.getText();
             try {
                 int valorDecimal = Integer.parseInt(entrada, 2);
-                Saida.setText(String.valueOf(valorDecimal));
+                saida.setText(String.valueOf(valorDecimal));
                 tipoConversaoLabel.setText("Binário >>> Decimal");
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(Converter.this, "Entrada inválida. Digite um número binário válido.");
+                JOptionPane.showMessageDialog(Converter.this, "entrada inválida. Digite um número binário válido.");
             }
         }
     }

@@ -10,11 +10,11 @@ import java.util.Map;
 import java.util.Random;
 
 public class CardGame extends JFrame {
-    private int Finalizar = 0;
-    private int Mark = 0;
-    private int Cartas;
-    private JButton UltimoButton = null;
-    private Map<JButton,Color> MapaDeBotoes = new HashMap<>();
+    private int finalizar = 0;
+    private int mark = 0;
+    private int cartas;
+    private JButton ultimoButton = null;
+    private Map<JButton,Color> mapaDeBotoes = new HashMap<>();
     private ArrayList<Color> paleta = new ArrayList<>();
 
     CardGame() {
@@ -36,13 +36,13 @@ public class CardGame extends JFrame {
 
         switch (escolha) {
             case 0:
-                Cartas = 12;
+                cartas = 12;
                 break;
             case 1:
-                Cartas = 16;
+                cartas = 16;
                 break;
             case 2:
-                Cartas = 20;
+                cartas = 20;
                 break;
             default:
                 System.exit(0);
@@ -57,20 +57,20 @@ public class CardGame extends JFrame {
                 JButton CurrentButton = (JButton) e.getSource();
                 //mostra cor
 
-                if(UltimoButton == null){
-                    CurrentButton.setBackground(MapaDeBotoes.get(CurrentButton));
-                    UltimoButton = CurrentButton;
+                if(ultimoButton == null){
+                    CurrentButton.setBackground(mapaDeBotoes.get(CurrentButton));
+                    ultimoButton = CurrentButton;
                     
                     //Deixa cor mostrando
                 }
                 else{
-                    if(MapaDeBotoes.get(CurrentButton) == MapaDeBotoes.get(UltimoButton)){
-                        CurrentButton.setBackground(MapaDeBotoes.get(CurrentButton));
-                        Finalizar += 2;
+                    if(mapaDeBotoes.get(CurrentButton) == mapaDeBotoes.get(ultimoButton)){
+                        CurrentButton.setBackground(mapaDeBotoes.get(CurrentButton));
+                        finalizar += 2;
                         //deixa ambas as cores mostrando
-                        UltimoButton = null;
+                        ultimoButton = null;
 
-                        if (Finalizar == Cartas ) {
+                        if (finalizar == cartas ) {
                             JOptionPane.showMessageDialog(CardGame.this, "Parabéns! Você concluiu o jogo!");
                             Timer waiting = new Timer(750, new ActionListener() {
                                 @Override
@@ -85,13 +85,13 @@ public class CardGame extends JFrame {
                         }
                     }
                     else{
-                        CurrentButton.setBackground(MapaDeBotoes.get(CurrentButton));
+                        CurrentButton.setBackground(mapaDeBotoes.get(CurrentButton));
                         Timer waiting = new Timer(500, new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent a){
                                 CurrentButton.setBackground(null);
-                                UltimoButton.setBackground(null);
-                                UltimoButton = null;
+                                ultimoButton.setBackground(null);
+                                ultimoButton = null;
                             }
                         });
 
@@ -104,16 +104,16 @@ public class CardGame extends JFrame {
             }
         };
 
-        for(int i = 0; i < Cartas/2 ;i++){
-            Color CurrentColor = geradorDeCor(Cartas/2);
+        for(int i = 0; i < cartas/2 ;i++){
+            Color CurrentColor = geradorDeCor(cartas/2);
 
-            MapaDeBotoes.put(new JButton(){ {addActionListener(Action); } }, CurrentColor);
-            MapaDeBotoes.put(new JButton(){ {addActionListener(Action); } }, CurrentColor);  
+            mapaDeBotoes.put(new JButton(){ {addActionListener(Action); } }, CurrentColor);
+            mapaDeBotoes.put(new JButton(){ {addActionListener(Action); } }, CurrentColor);  
         }
 
         JPanel Base = new JPanel(){
             {
-                switch(Cartas) {
+                switch(cartas) {
                     case 12:
                         setLayout(new GridLayout(4,3));
                         break;
@@ -125,7 +125,7 @@ public class CardGame extends JFrame {
                         break;
                 }
 
-                for(Map.Entry<JButton,Color> Mapa : MapaDeBotoes.entrySet()){
+                for(Map.Entry<JButton,Color> Mapa : mapaDeBotoes.entrySet()){
                     add(Mapa.getKey());
                 }
             }
@@ -154,8 +154,8 @@ public class CardGame extends JFrame {
    public Color geradorDeCor(int q) {
        
         Random rand = new Random();
-        int index = rand.nextInt(q-Mark);
-        Mark++;
+        int index = rand.nextInt(q-mark);
+        mark++;
         Color cor = paleta.get(index);
         paleta.remove(index);
 

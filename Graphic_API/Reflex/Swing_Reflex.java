@@ -71,7 +71,7 @@ public class Swing_Reflex extends JFrame {
                 // Registra o tempo do último clique
                 ultimoClique = System.currentTimeMillis();
 
-                // Verifica se o timer está em execução antes de reiniciá-lo
+                
                 if (timer == null || !timer.isRunning()) {
                     iniciarTimer();
                 }
@@ -104,7 +104,7 @@ public class Swing_Reflex extends JFrame {
                 delay = getRandomDelay(1000, 1500); // Valor padrão (entre 1.0 s e 1.5 s)
         }
 
-        // Configura um timer apenas se não estiver em execução
+      
         if (timer == null || !timer.isRunning()) {
             
             timer = new Timer(delay, new ActionListener() {

@@ -11,10 +11,10 @@ import java.text.*;
 
 public class RelogioCrono extends JFrame {
 
-    private JComboBox<String> Menu;
-    private JPanel ClockPanel;
-    private JPanel TimerPanel;
-    private JPanel CountPanel;
+    private JComboBox<String> menu;
+    private JPanel clockPanel;
+    private JPanel timerPanel;
+    private JPanel countPanel;
     private JPanel currentScreen;
     private int T = 60;
     private Timer timing; // Variável para armazenar o Timer
@@ -28,16 +28,16 @@ public class RelogioCrono extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         String[] Options = {"Clock", "Timer", "Count"};
-        Menu = new JComboBox<>(Options);
-        Menu.addActionListener(new ActionListener() {
+        menu = new JComboBox<>(Options);
+        menu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String escolha = (String) Menu.getSelectedItem();
+                String escolha = (String) menu.getSelectedItem();
                 setScreen(escolha);
             }
         });
 
-        add(Menu, BorderLayout.NORTH);
+        add(menu, BorderLayout.NORTH);
 
         createClockScreen();
         createTimerScreen();
@@ -49,7 +49,7 @@ public class RelogioCrono extends JFrame {
     }
 
     public void createClockScreen() {
-        ClockPanel = new JPanel(new GridLayout(1, 2));
+        clockPanel = new JPanel(new GridLayout(1, 2));
 
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
@@ -58,7 +58,7 @@ public class RelogioCrono extends JFrame {
                 Date Hoje = Cal.getTime();
                 SimpleDateFormat Formata = new SimpleDateFormat("dd/MM/yyyy");
 
-                ClockPanel.removeAll();
+                clockPanel.removeAll();
 
                 JLabel Data = new JLabel("     " + Formata.format(Hoje));
                 JLabel Horario = new JLabel("       " + Cal.get(Calendar.HOUR) + ":" + Cal.get(Calendar.MINUTE) + ":" + Cal.get(Calendar.SECOND));
@@ -66,8 +66,8 @@ public class RelogioCrono extends JFrame {
                 Data.setFont(new Font("Arial", Font.PLAIN, 22));
                 Horario.setFont(new Font("Arial", Font.PLAIN, 22));
 
-                ClockPanel.add(Data);
-                ClockPanel.add(Horario);
+                clockPanel.add(Data);
+                clockPanel.add(Horario);
 
                 revalidate();
                 repaint();
@@ -79,7 +79,7 @@ public class RelogioCrono extends JFrame {
     }
 
     public void createTimerScreen() {
-        TimerPanel = new JPanel(new BorderLayout());
+        timerPanel = new JPanel(new BorderLayout());
         JPanel Display = new JPanel(new BorderLayout());
 
         JLabel Tempo = new JLabel("" + T + "") {
@@ -108,8 +108,8 @@ public class RelogioCrono extends JFrame {
         JButton forward2Button = new JButton(">>");
         Control.add(forward2Button);
 
-        TimerPanel.add(Display, BorderLayout.CENTER);
-        TimerPanel.add(Control, BorderLayout.SOUTH);
+        timerPanel.add(Display, BorderLayout.CENTER);
+        timerPanel.add(Control, BorderLayout.SOUTH);
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -171,7 +171,7 @@ public class RelogioCrono extends JFrame {
     }
 
     public void createCountScreen() {
-        CountPanel = new JPanel();
+        countPanel = new JPanel();
         JPanel Display2 = new JPanel(new BorderLayout());
         JLabel Tempo = new JLabel("" + T2 + "") {
             {
@@ -209,8 +209,8 @@ public class RelogioCrono extends JFrame {
             }
         });
 
-        CountPanel.add(Display2, BorderLayout.CENTER);
-        CountPanel.add(Control, BorderLayout.SOUTH);
+        countPanel.add(Display2, BorderLayout.CENTER);
+        countPanel.add(Control, BorderLayout.SOUTH);
     }
 
     public void setScreen(String escolha) {
@@ -220,15 +220,15 @@ public class RelogioCrono extends JFrame {
 
         switch (escolha) {
             case "Clock":
-                currentScreen = ClockPanel;
+                currentScreen = clockPanel;
                 break;
 
             case "Timer":
-                currentScreen = TimerPanel;
+                currentScreen = timerPanel;
                 break;
 
             case "Count":
-                currentScreen = CountPanel;
+                currentScreen = countPanel;
                 break;
         }
 

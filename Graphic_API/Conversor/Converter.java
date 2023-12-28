@@ -94,9 +94,9 @@ public class Converter extends JFrame {
 
     private void realizarConversao() {
         if (padraoDeCalc) {
-            String entrada = entrada.getText();
+            String in = entrada.getText();
             try {
-                int valorDecimal = Integer.parseInt(entrada);
+                int valorDecimal = Integer.parseInt(in);
                 String valorBinario = Integer.toBinaryString(valorDecimal);
                 saida.setText(valorBinario);
                 tipoConversaoLabel.setText("Decimal >>> Binário");
@@ -104,9 +104,9 @@ public class Converter extends JFrame {
                 JOptionPane.showMessageDialog(Converter.this, "entrada inválida. Digite um número decimal válido.");
             }
         } else {
-            String entrada = entrada.getText();
+            String in = entrada.getText();
             try {
-                int valorDecimal = Integer.parseInt(entrada, 2);
+                int valorDecimal = Integer.parseInt(in, 2);
                 saida.setText(String.valueOf(valorDecimal));
                 tipoConversaoLabel.setText("Binário >>> Decimal");
             } catch (NumberFormatException ex) {

@@ -1,11 +1,10 @@
-package GerenciamentoBanco;
 
 import src.*;
 
-public class Main 
+public class Principal 
 {
     public static void main(String[] args){
-        Conta a = new Conta("Luis", 12, 0,"27/2/2032");
+        Conta a = new Conta("Luis", 12, 0);
         
         System.out.println(a.imprimeDados());
     }

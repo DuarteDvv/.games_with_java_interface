@@ -38,22 +38,29 @@ public abstract class Conta{
   }
   
   public void transfere(Conta destino, double valor){
-    if(sacar(valor)){
-      destino.depositar(valor);
+    sacar(valor);
+    destino.depositar(valor);
+  }
+
+  public void sacar (double sacado){
+
+    if((saldo - sacado) >= 0){ 
+      saldo -= sacado;
+    }
+    else if(sacado < 0){
+      throw new IllegalArgumentException("Erro, saque negativo");
 
     }
     else{
-      System.out.println("Erro, saldo insuficiente");
+      throw new IllegalArgumentException("Erro, saldo insuficiente");
     }
-    
-
-  }
-  public boolean sacar (double sacado){
-    return (saldo - sacado) >= 0 ? (saldo -= sacado) == saldo : false;
   }
 
 
   public void depositar (double depositado){
+    if(depositado < 0){
+      throw new IllegalArgumentException("Erro, deposito negativo");
+    }
     saldo += depositado;
   }
 
@@ -61,9 +68,28 @@ public abstract class Conta{
     return saldo * 0.1;
   }
 
-
-  public String imprimeDados (){
+  @Override
+  public String toString(){
     return titular + " " + numero + " " + saldo + " " + dataEntrada;
+  }
+
+  @Override
+  public boolean equals(Object object){
+    if(object == null){
+      return false;
+    }
+
+    if(!(object instanceof Conta)){
+      return false;
+    }
+
+    Conta conta = (Conta) object;
+    if(this.titular == conta.titular && this.agencia == conta.agencia && this.dataEntrada == conta.dataEntrada && this.numero == conta.numero && this.identificador == conta.identificador){
+      return true;
+
+    }
+
+    return false;
 
   }
 

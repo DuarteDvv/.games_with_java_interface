@@ -84,12 +84,7 @@ public abstract class Conta{
     }
 
     Conta conta = (Conta) object;
-    if(this.titular == conta.titular && this.agencia == conta.agencia && this.dataEntrada == conta.dataEntrada && this.numero == conta.numero && this.identificador == conta.identificador){
-      return true;
-
-    }
-
-    return false;
+    return (this.agencia == conta.agencia && this.numero == conta.numero) ;
 
   }
 

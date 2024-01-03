@@ -24,15 +24,17 @@ public abstract class Conta implements Comparable<Conta>{
     return Conta.numeroDeContas;
   }
 
-  public Conta(){
+  public Conta(String tit){
+
+    titular = tit;
+    saldo = 0;
     numeroDeContas++;
     identificador = numeroDeContas;
   }
 
-  public Conta (String tit, int num, double sald){
+  public Conta (String tit, double sald){
     
     titular = tit;
-    numero = num;
     saldo = sald;
 
     numeroDeContas++;
@@ -72,7 +74,7 @@ public abstract class Conta implements Comparable<Conta>{
 
   @Override
   public String toString(){
-    return String.format("%s %i %2.f %s",titular + " " + numero + " " + saldo + " " + dataEntrada);
+    return String.format("%s %i %2.f %s",titular + " || " + numero + " || " + saldo + " || " + dataEntrada);
   }
 
   @Override
@@ -92,15 +94,27 @@ public abstract class Conta implements Comparable<Conta>{
 
   @Override
   public int compareTo(Conta outraConta){
-    return this.titular.compareTo(outraConta.titular);
+    return this.titular.compareTo(outraConta.titular);  // 1
 
   }
-
-  public static Comparator<Conta> ComparadorPorNumero = Comparator.comparing(Conta::getNumero);
 
   private int getNumero(){
     return numero;
   }
+  
+  public static Comparator<Conta> comparadorPorNumero = Comparator.comparing(Conta::getNumero); // 2
+
+  public Comparator<Conta> comparadorPorNumero2 = new Comparator<>(){  // 3
+    public int compare(Conta c1,Conta c2 ){
+      return Integer.compare(c1.numero, c2.numero);
+    }
+  };
+
+  public int comparadorPorNumero3(List<Conta> list){  // 4
+    list.sort((c1,c2) -> { return Integer.compare(c1.numero, c2.numero);});
+  }
+
+ 
 
   public abstract String getTipoDeConta();
 

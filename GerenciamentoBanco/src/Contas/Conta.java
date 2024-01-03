@@ -1,8 +1,10 @@
 package src.Contas;
 
+import java.util.Comparator;
+
 import src.Data;
 
-public abstract class Conta{
+public abstract class Conta implements Comparable<Conta>{
   private static int numeroDeContas = 0;
 
   protected String titular;
@@ -70,7 +72,7 @@ public abstract class Conta{
 
   @Override
   public String toString(){
-    return titular + " " + numero + " " + saldo + " " + dataEntrada;
+    return String.format("%s %i %2.f %s",titular + " " + numero + " " + saldo + " " + dataEntrada);
   }
 
   @Override
@@ -86,6 +88,18 @@ public abstract class Conta{
     Conta conta = (Conta) object;
     return (this.agencia == conta.agencia && this.numero == conta.numero) ;
 
+  }
+
+  @Override
+  public int compareTo(Conta outraConta){
+    return this.titular.compareTo(outraConta.titular);
+
+  }
+
+  public static Comparator<Conta> ComparadorPorNumero = Comparator.comparing(Conta::getNumero);
+
+  private int getNumero(){
+    return numero;
   }
 
   public abstract String getTipoDeConta();

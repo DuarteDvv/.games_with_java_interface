@@ -1,4 +1,4 @@
-package src.Contas;
+package src.main.model;
 
 import java.util.Comparator;
 
@@ -13,7 +13,7 @@ public abstract class Conta implements Comparable<Conta>{
 
   protected int numero;
 
-  protected double saldo;
+  private double saldo;
 
   protected Data dataEntrada;
   
@@ -24,22 +24,15 @@ public abstract class Conta implements Comparable<Conta>{
     return Conta.numeroDeContas;
   }
 
-  public Conta(String tit){
+  protected void setSaldo(double newSaldo){
+    saldo = newSaldo;
+  }
+  
+  protected double getSaldo(){
+    return saldo;
 
-    titular = tit;
-    saldo = 0;
-    numeroDeContas++;
-    identificador = numeroDeContas;
   }
 
-  public Conta (String tit, double sald){
-    
-    titular = tit;
-    saldo = sald;
-
-    numeroDeContas++;
-    identificador = numeroDeContas;
-  }
   
   public void transfere(Conta destino, double valor){
     sacar(valor);
@@ -48,24 +41,25 @@ public abstract class Conta implements Comparable<Conta>{
 
   public void sacar (double sacado){
 
-    if((saldo - sacado) >= 0){ 
-      saldo -= sacado;
+    if(sacado <= 0){ 
+      throw new IllegalArgumentException("Saque invalido");
+      
     }
-    else if(sacado < 0){
-      throw new IllegalArgumentException("Erro, saque negativo");
-
+    else if((getSaldo() - sacado) < 0){
+      throw new IllegalArgumentException("Saldo insuficiente");
     }
     else{
-      throw new IllegalArgumentException("Erro, saldo insuficiente");
+      setSaldo(getSaldo() - sacado);
     }
   }
 
 
   public void depositar (double depositado){
-    if(depositado < 0){
-      throw new IllegalArgumentException("Erro, deposito negativo");
+    if(depositado <= 0){
+      throw new IllegalArgumentException("Deposito invalido");
     }
-    saldo += depositado;
+    
+    setSaldo(getSaldo() + depositado);
   }
 
   public double rendimentoMensal (){
@@ -94,27 +88,22 @@ public abstract class Conta implements Comparable<Conta>{
 
   @Override
   public int compareTo(Conta outraConta){
-    return this.titular.compareTo(outraConta.titular);  // 1
+    return this.titular.compareTo(outraConta.titular);  //
 
   }
 
-  private int getNumero(){
-    return numero;
-  }
-  
-  public static Comparator<Conta> comparadorPorNumero = Comparator.comparing(Conta::getNumero); // 2
-
-  public Comparator<Conta> comparadorPorNumero2 = new Comparator<>(){  // 3
+  public Comparator<Conta> comparadorPorNumero = new Comparator<>(){ 
     public int compare(Conta c1,Conta c2 ){
       return Integer.compare(c1.numero, c2.numero);
     }
   };
 
-  public int comparadorPorNumero3(List<Conta> list){  // 4
-    list.sort((c1,c2) -> { return Integer.compare(c1.numero, c2.numero);});
-  }
-
- 
+  /* public Comparator<Conta> comparadorPorData = new Comparator<>(){ 
+    public int compare(Conta c1,Conta c2 ){
+      return 
+    }
+  };
+  */
 
   public abstract String getTipoDeConta();
 

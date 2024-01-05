@@ -3,10 +3,11 @@ package src.Contas;
 import src.Interfaces.Tributavel;
 
 public class ContaCorrente extends Conta implements Tributavel {
+
     
     @Override
     public double getValorImposto(){
-        return 0.01 * super.saldo;
+        return 0.01 * getSaldo();
     }
 
     @Override

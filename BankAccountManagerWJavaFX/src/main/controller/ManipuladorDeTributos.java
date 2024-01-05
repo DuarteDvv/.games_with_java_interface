@@ -1,8 +1,8 @@
-package src.Contas;
+package src.main.controller;
 
 import java.util.LinkedList;
 
-import src.Interfaces.Tributavel;
+import util.Tributavel;
 
 public class ManipuladorDeTributos {
 

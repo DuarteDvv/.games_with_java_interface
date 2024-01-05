@@ -1,4 +1,4 @@
-package src.Interfaces;
+package src.main.util;
 
 public interface Autenticavel {
 

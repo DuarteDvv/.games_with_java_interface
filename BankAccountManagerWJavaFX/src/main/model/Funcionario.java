@@ -1,6 +1,5 @@
-package src;
+package src.main.model;
 
-import src.Contas.Conta;
 
 public abstract class Funcionario {
     private String nome;

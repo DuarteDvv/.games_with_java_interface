@@ -1,6 +1,6 @@
-package src.Contas;
+package src.main.model;
 
-import src.Interfaces.Tributavel;
+import util.Tributavel;
 
 public class SeguroVida implements Tributavel {
 

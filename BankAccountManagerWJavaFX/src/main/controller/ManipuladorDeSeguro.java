@@ -1,4 +1,4 @@
-package src.Contas;
+package src.main.controller;
 
 public class ManipuladorDeSeguro {
 

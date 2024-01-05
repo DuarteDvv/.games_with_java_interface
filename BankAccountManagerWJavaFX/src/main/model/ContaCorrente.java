@@ -1,6 +1,6 @@
-package src.Contas;
+package src.main.model;
 
-import src.Interfaces.Tributavel;
+import util.Tributavel;
 
 public class ContaCorrente extends Conta implements Tributavel {
 

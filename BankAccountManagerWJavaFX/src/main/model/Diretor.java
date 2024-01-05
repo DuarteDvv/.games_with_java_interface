@@ -1,6 +1,6 @@
-package src;
+package src.main.model;
 
-import src.Interfaces.Autenticavel;
+import src.main.util.Autenticavel;
 
 public class Diretor extends Funcionario implements Autenticavel {
 

@@ -1,4 +1,4 @@
-package src.Contas;
+package src.main.controller;
 
 import java.awt.List;
 import java.util.ArrayList;

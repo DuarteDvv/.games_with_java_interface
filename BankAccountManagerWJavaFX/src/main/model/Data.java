@@ -1,4 +1,4 @@
-package src;
+package src.main.model;
 
 public class Data {
     private int	dia;

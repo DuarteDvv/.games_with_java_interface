@@ -1,4 +1,4 @@
-import java.lang.*
+import java.lang.*;
 
 class GerarPdf implements Runnable{
     public void run() {

@@ -4,29 +4,40 @@ import util.Tributavel;
 
 public class ContaCorrente extends Conta implements Tributavel {
 
-    
-    @Override
-    public double getValorImposto(){
-        return 0.01 * getSaldo();
-    }
+  ContaCorrente(String titu){
+    super(titu);
+  }
 
-    @Override
-    public void sacar (double sacado){
+  ContaCorrente(String titu, double sald){
+    super(titu, sald);
+  }
 
-        if((super.saldo - sacado - 0.10) >= 0){ 
-          super.saldo -= sacado - 0.10;
-        }
-        else if(sacado < 0){
-          throw new IllegalArgumentException("Erro, saque negativo");
+
     
-        }
-        else{
-          throw new IllegalArgumentException("Erro, saldo insuficiente");
-        }
+  @Override
+  public double getValorImposto(){
+      return 0.01 * getSaldo();
+  }
+
+  @Override
+  public void sacar (double sacado){
+
+      if(sacado <= 0){ 
+        throw new IllegalArgumentException("Saque invalido");
+        
       }
-
-    @Override
-    public String getTipoDeConta(){
-        return  "Conta Corrente";
+      else if((getSaldo() - sacado) < 0){
+        throw new IllegalArgumentException("Saldo insuficiente");
+        
+  
+      }
+      else{
+        setSaldo(getSaldo() - sacado - 0.10);
+      }
     }
+
+  @Override
+  public String getTipoDeConta(){
+      return  "Conta Corrente";
+  }
 }

@@ -2,20 +2,14 @@ package src.main.model;
 
 public class ContaPoupança extends Conta{
 
-    @Override
-    public void sacar (double sacado){
+    ContaPoupança(String titu){
+      super(titu);
+    }
 
-        if((super.saldo - sacado) >= 0){ 
-          super.saldo -= sacado;
-          }
-        else if(sacado < 0){
-          throw new IllegalArgumentException("Erro, saque negativo");
+    ContaPoupança(String titu, double sald){
+      super(titu,sald);
+    }
     
-        }
-        else{
-          throw new IllegalArgumentException("Erro, saldo insuficiente");
-        }
-      }
     @Override
     public String getTipoDeConta(){
         return "Conta Poupança";
